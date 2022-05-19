@@ -1,12 +1,13 @@
 import unittest
 
-from HashTable import HashTable
-from Element import Element
-
 from matplotlib import pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 from numpy import random
 from timeit import default_timer as timer
+
+from HashTable import HashTable
+from Element import Element
 
 class MyTestCase(unittest.TestCase):
 
@@ -32,6 +33,12 @@ class MyTestCase(unittest.TestCase):
             collisionsM.append(hashTableM.collisions)
 
         plt.plot(loadingFactorD, collisionsD, 'r', loadingFactorM, collisionsM, 'g')
+        plt.title("Comparison of collisions with division hashing and multiplicative hashing")
+        plt.xlabel("alpha (loading factor)")
+        plt.ylabel("collisions")
+        redPatch = mpatches.Patch(color = 'red', label = 'Division hashing')
+        greenPatch = mpatches.Patch(color = 'green', label = "Multiplicative hashing")
+        plt.legend(handles = [redPatch,greenPatch])
         plt.show()
 
     def testTimeComplexity(self):
@@ -53,14 +60,21 @@ class MyTestCase(unittest.TestCase):
             end1 = timer()
             complexityD.append(end1-start1)
             loadingFactorD.append(hashTableD.n/m)
+
             start2 = timer()
             hashTableM.insert(Element(None,key))
             end2 = timer()
-            complexityM.append(end2-start1)
+            complexityM.append(end2-start2)
             loadingFactorM.append(hashTableM.n/m)
 
         plt.plot(loadingFactorD,complexityD,'r',loadingFactorM,complexityM,'g')
+        plt.title("Time complexity of 'insert()' with division hashing and multiplicative hashing")
+        plt.xlabel("alpha (loading factor)")
+        plt.ylabel("seconds")
         plt.ylim(0,0.00010) #o 0.00025 o 0.000025
+        redPatch = mpatches.Patch(color = 'red', label = 'Division hashing')
+        greenPatch = mpatches.Patch(color = 'green', label = "Multiplicative hashing")
+        plt.legend(handles = [redPatch,greenPatch])
         plt.show()
 
     def testDivisionHashingWorstCase(self):
@@ -82,6 +96,12 @@ class MyTestCase(unittest.TestCase):
             collisionsM.append(hashTableM.collisions)
 
         plt.plot(loadingFactorD,collisionsD,'r',loadingFactorM,collisionsM,'g')
+        plt.title("Dealing of multiples of m: Worst case for division hashing")
+        plt.xlabel("alpha (loading factor)")
+        plt.ylabel("collisions")
+        redPatch = mpatches.Patch(color = 'red', label = 'Division hashing')
+        greenPatch = mpatches.Patch(color = 'green', label = "Multiplicative hashing")
+        plt.legend(handles = [redPatch,greenPatch])
         plt.show()
 
     def generateRandomKeys(self, n):
