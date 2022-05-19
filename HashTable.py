@@ -1,4 +1,3 @@
-import numpy as np
 from numpy import random
 
 class HashTable:
@@ -6,19 +5,19 @@ class HashTable:
         self.m = m
         self.n = 0
         self.collisions = 0
-        self.hashFunction = hashFunction
-        self.chainedList = [[] for i in range(m)]     #lista di m liste
+        self.hashFunction = hashFunction        #hash function selected
+        self.chainedList = [[] for i in range(m)]       #list of m lists
 
-    def insert(self, element):
+    def insert(self, element):      #calls helper method computeHK()
         hk = self.computeHK(element.key)
 
-        if self.chainedList[hk]:    #se la lista non è vuota
+        if self.chainedList[hk]:    #if list is not empty there is a collision
             self.collisions +=1
 
         self.chainedList[hk].insert(0, element)
         self.n +=1
 
-    def search(self, k):
+    def search(self, k):        #calls helper method computeHK()
         hk = self.computeHK(k)
         x = None
         for element in self.chainedList[hk]:
@@ -27,12 +26,12 @@ class HashTable:
                 break
         return x,hk
 
-    def delete(self, element):
+    def delete(self, element):      #calls method search()
         x,hk = self.search(element.key)
         if x is not None:
             self.chainedList[hk].remove(x)
 
-    def computeHK(self, k):
+    def computeHK(self, k):      #calls helper methods exploreByDivisionHashing() and exploreByMulitplicativeHashing()
         hk = None
         if self.hashFunction == "division hashing":
             hk = self.exploreByDivisionHashing(k)
@@ -40,10 +39,10 @@ class HashTable:
             hk = self.exploreByMultiplicativeHashing(k)
         return hk
 
-    def exploreByDivisionHashing(self, k):
+    def exploreByDivisionHashing(self, k):      #computes index in case of division hashing
         return int(k%self.m)
 
-    def exploreByMultiplicativeHashing(self, k):
+    def exploreByMultiplicativeHashing(self, k):        #computes index in case of multiplicative hashing
         A = random.rand()
         floatingDigit = self.m * ((k*A)%1)
 

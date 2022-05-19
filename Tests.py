@@ -11,28 +11,29 @@ from Element import Element
 
 class MyTestCase(unittest.TestCase):
 
-    def testCompareCollisions(self):
+    def testCompareCollisions(self):        #calls helper method generateRandomKeys()
         m = 10000
         nKeys = 8000
         randomKeys = self.generateRandomKeys(nKeys)
 
-        hashTableD = HashTable(m, "division hashing")
-        hashTableM = HashTable(m, "multiplicative hashing")
+        hashTableD = HashTable(m, "division hashing")       #hash table dealed with division hashing
+        hashTableM = HashTable(m, "multiplicative hashing")     #hash table dealed with multiplicative hashing
 
         loadingFactorD = [0]
         collisionsD = [0]
         loadingFactorM = [0]
         collisionsM = [0]
 
-        for key in randomKeys:
+        for key in randomKeys:      #collects data for plotting
             hashTableD.insert(Element(None,key))
             loadingFactorD.append(hashTableD.n/m)
             collisionsD.append(hashTableD.collisions)
+
             hashTableM.insert(Element(None,key))
             loadingFactorM.append(hashTableM.n/m)
             collisionsM.append(hashTableM.collisions)
 
-        plt.plot(loadingFactorD, collisionsD, 'r', loadingFactorM, collisionsM, 'g')
+        plt.plot(loadingFactorD, collisionsD, 'r', loadingFactorM, collisionsM, 'g')        #plotting commands
         plt.title("Comparison of collisions with division hashing and multiplicative hashing")
         plt.xlabel("alpha (loading factor)")
         plt.ylabel("collisions")
@@ -41,20 +42,20 @@ class MyTestCase(unittest.TestCase):
         plt.legend(handles = [redPatch,greenPatch])
         plt.show()
 
-    def testTimeComplexity(self):
+    def testTimeComplexity(self):       #calls helper method generateRandomKeys()
         m = 1000
         nKeys = 1500
         randomKeys = self.generateRandomKeys(nKeys)
 
-        hashTableD = HashTable(m, "division hashing")
-        hashTableM = HashTable(m, "multiplicative hashing")
+        hashTableD = HashTable(m, "division hashing")       #hash table dealed with division hashing
+        hashTableM = HashTable(m, "multiplicative hashing")     #hash table dealed with multiplicative hashing
 
         loadingFactorD = [0]
         complexityD = [0]
         loadingFactorM = [0]
         complexityM = [0]
 
-        for key in randomKeys:
+        for key in randomKeys:      #collects data for plotting
             start1 = timer()
             hashTableD.insert(Element(None,key))
             end1 = timer()
@@ -67,7 +68,7 @@ class MyTestCase(unittest.TestCase):
             complexityM.append(end2-start2)
             loadingFactorM.append(hashTableM.n/m)
 
-        plt.plot(loadingFactorD,complexityD,'r',loadingFactorM,complexityM,'g')
+        plt.plot(loadingFactorD,complexityD,'r',loadingFactorM,complexityM,'g')     #plotting commands
         plt.title("Time complexity of 'insert()' with division hashing and multiplicative hashing")
         plt.xlabel("alpha (loading factor)")
         plt.ylabel("seconds")
@@ -79,15 +80,15 @@ class MyTestCase(unittest.TestCase):
 
     def testDivisionHashingWorstCase(self):
         m = 50
-        hashTableD = HashTable(m,"division hashing")
-        hashTableM = HashTable(m, "multiplicative hashing")
+        hashTableD = HashTable(m,"division hashing")        #hash table dealed with division hashing
+        hashTableM = HashTable(m, "multiplicative hashing")     #hash table dealed with multiplicative hashing
 
         loadingFactorD = []
         collisionsD = []
         loadingFactorM = []
         collisionsM = []
 
-        for key in range(1,1000,m):
+        for key in range(1,1000,m):     #collects data for plotting
             hashTableD.insert(Element(None,key))
             loadingFactorD.append(hashTableD.n/m)
             collisionsD.append(hashTableD.collisions)
@@ -95,7 +96,7 @@ class MyTestCase(unittest.TestCase):
             loadingFactorM.append(hashTableM.n/m)
             collisionsM.append(hashTableM.collisions)
 
-        plt.plot(loadingFactorD,collisionsD,'r',loadingFactorM,collisionsM,'g')
+        plt.plot(loadingFactorD,collisionsD,'r',loadingFactorM,collisionsM,'g')     #plotting commands
         plt.title("Dealing of multiples of m: Worst case for division hashing")
         plt.xlabel("alpha (loading factor)")
         plt.ylabel("collisions")
@@ -105,7 +106,7 @@ class MyTestCase(unittest.TestCase):
         plt.show()
 
     def generateRandomKeys(self, n):
-        randomKeys = [key * n for key in np.random.random(n)]
+        randomKeys = [key * n for key in np.random.random(n)]       #generates array of random keys, each in [0,n)
         return randomKeys
 
 if __name__ == '__main__':
