@@ -9,11 +9,11 @@ from timeit import default_timer as timer
 from HashTable import HashTable
 from Element import Element
 
-class MyTestCase(unittest.TestCase):
+class Ex2TestCase(unittest.TestCase):
 
     def testCompareCollisions(self):        #calls helper method generateRandomKeys()
         m = 10000
-        nKeys = 8000
+        nKeys = 12000
         randomKeys = self.generateRandomKeys(nKeys)
 
         hashTableD = HashTable(m, "division hashing")       #hash table dealed with division hashing
@@ -43,8 +43,8 @@ class MyTestCase(unittest.TestCase):
         plt.show()
 
     def testTimeComplexity(self):       #calls helper method generateRandomKeys()
-        m = 1000
-        nKeys = 1500
+        m = 10000
+        nKeys = 15000
         randomKeys = self.generateRandomKeys(nKeys)
 
         hashTableD = HashTable(m, "division hashing")       #hash table dealed with division hashing
@@ -68,11 +68,14 @@ class MyTestCase(unittest.TestCase):
             complexityM.append(end2-start2)
             loadingFactorM.append(hashTableM.n/m)
 
-        plt.plot(loadingFactorD,complexityD,'r',loadingFactorM,complexityM,'g')     #plotting commands
+        DmovingAverage = self.computeMovingAverage(complexityD)
+        MMovingAverage = self.computeMovingAverage(complexityM)
+
+        plt.plot(loadingFactorD,DmovingAverage,'r',loadingFactorM,MMovingAverage,'g')       #plotting commands
         plt.title("Time complexity of 'insert()' with division hashing and multiplicative hashing")
         plt.xlabel("alpha (loading factor)")
         plt.ylabel("seconds")
-        plt.ylim(0,0.00010) #o 0.00025 o 0.000025
+        plt.ylim(0,0.00002)
         redPatch = mpatches.Patch(color = 'red', label = 'Division hashing')
         greenPatch = mpatches.Patch(color = 'green', label = "Multiplicative hashing")
         plt.legend(handles = [redPatch,greenPatch])
@@ -108,6 +111,17 @@ class MyTestCase(unittest.TestCase):
     def generateRandomKeys(self, n):
         randomKeys = [key * n for key in np.random.random(n)]       #generates array of random keys, each in [0,n)
         return randomKeys
+
+    def computeMovingAverage(self, array):
+        movingAverages = []
+        cumSum = np.cumsum(array)
+
+        i=1
+        while i<=len(array):
+            windowAverage = round(cumSum[i-1]/i, 200)
+            movingAverages.append(windowAverage)
+            i +=1
+        return movingAverages
 
 if __name__ == '__main__':
     unittest.main()
