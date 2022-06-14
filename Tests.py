@@ -75,6 +75,7 @@ class Ex2TestCase(unittest.TestCase):
         plt.title("Time complexity of 'insert()' with division hashing and multiplicative hashing")
         plt.xlabel("alpha (loading factor)")
         plt.ylabel("seconds")
+        plt.xlim(0.07,1.5)
         plt.ylim(0,0.00002)
         redPatch = mpatches.Patch(color = 'red', label = 'Division hashing')
         greenPatch = mpatches.Patch(color = 'green', label = "Multiplicative hashing")
@@ -95,6 +96,7 @@ class Ex2TestCase(unittest.TestCase):
             hashTableD.insert(Element(None,key))
             loadingFactorD.append(hashTableD.n/m)
             collisionsD.append(hashTableD.collisions)
+
             hashTableM.insert(Element(None,key))
             loadingFactorM.append(hashTableM.n/m)
             collisionsM.append(hashTableM.collisions)
